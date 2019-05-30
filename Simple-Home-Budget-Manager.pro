@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets
+QT       += core gui widgets sql
 
 TARGET = Simple-Home-Budget-Manager
 TEMPLATE = app
