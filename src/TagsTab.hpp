@@ -24,6 +24,7 @@ public slots:
 private:
     void enableButtons();
     void disableButtons();
+    bool tryToSubmitChanges();
 
 private:
     QPushButton * editButton;

@@ -73,10 +73,11 @@ void TagsTab::openAddTagDialog()
         field.setValue(newTagName);
         QSqlRecord record;
         record.append(field);
-        model->insertRecord(-1, record);
-        model->submitAll();
-
-        selectedItemChanged();
+        if (model->insertRecord(-1, record))
+        {
+            tryToSubmitChanges();
+            selectedItemChanged();
+        }
     }
 }
 
@@ -97,8 +98,8 @@ void TagsTab::openEditTagDialog()
     if (dialogSucceeded && !newTagName.isEmpty() && oldTagName != newTagName)
     {
         record.setValue("tag_name", newTagName);
-        model->setRecord(index.row(), record);
-        model->submitAll();
+        if (model->setRecord(index.row(), record))
+            tryToSubmitChanges();
     }
 }
 
@@ -108,7 +109,7 @@ void TagsTab::removeTag()
     if (index.isValid())
         if (model->removeRow(index.row()))
         {
-            model->submitAll();
+            tryToSubmitChanges();
             selectedItemChanged();
         }
 }
@@ -123,4 +124,13 @@ void TagsTab::disableButtons()
 {
     editButton->setDisabled(true);
     removeButton->setDisabled(true);
+}
+
+bool TagsTab::tryToSubmitChanges()
+{
+    bool success = model->submitAll();
+    if (success)
+        return true;
+    model->revertAll();
+    return false;
 }
