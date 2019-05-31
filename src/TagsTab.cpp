@@ -30,6 +30,7 @@ TagsTab::TagsTab(QWidget *parent) : QWidget(parent)
     view->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
     view->setEditTriggers(QAbstractItemView::EditTrigger::NoEditTriggers);
     view->horizontalHeader()->setStretchLastSection(true);
+    view->setColumnHidden(0, true);
 
     QPushButton * addButton = new QPushButton("Add", this);
     removeButton = new QPushButton("Remove", this);
