@@ -18,6 +18,7 @@ TagsTab::TagsTab(QWidget *parent) : QWidget(parent)
     model->setTable("tags");
     model->setEditStrategy(QSqlTableModel::EditStrategy::OnManualSubmit);
     model->select();
+    model->setHeaderData(1, Qt::Horizontal, "Tag name");
 
     view = new QTableView(this);
     view->setModel(model);
