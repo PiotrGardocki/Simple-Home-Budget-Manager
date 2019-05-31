@@ -2,7 +2,6 @@
 
 #include <QSqlQueryModel>
 #include <QSqlTableModel>
-#include <QSqlDatabase>
 #include <QSqlField>
 #include <QSqlRecord>
 
@@ -15,10 +14,6 @@
 
 TagsTab::TagsTab(QWidget *parent) : QWidget(parent)
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(QApplication::applicationDirPath() + "/../../database.db");
-    db.open();
-
     model = new QSqlTableModel(this);
     model->setTable("tags");
     model->setEditStrategy(QSqlTableModel::EditStrategy::OnManualSubmit);
