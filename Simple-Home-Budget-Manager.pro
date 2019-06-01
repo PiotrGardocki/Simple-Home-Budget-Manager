@@ -16,11 +16,13 @@ CONFIG += c++11
 SOURCES += \
     src/main.cpp \
     src/MainWindow.cpp \
-    src/TagsTab.cpp
+    src/TagsTab.cpp \
+    src/TableEditBox.cpp \
 
 HEADERS += \
     src/MainWindow.hpp \
-    src/TagsTab.hpp
+    src/TagsTab.hpp \
+    src/TableEditBox.hpp \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
