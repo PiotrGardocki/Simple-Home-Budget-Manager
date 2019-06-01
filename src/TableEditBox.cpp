@@ -14,7 +14,6 @@ TableEditBox::TableEditBox(const QString &title, QSqlTableModel *model, QTableVi
     model->select();
 
     view->setParent(this);
-    view->setModel(model);
     view->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
     view->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
     view->setEditTriggers(QAbstractItemView::EditTrigger::NoEditTriggers);
@@ -36,9 +35,9 @@ TableEditBox::TableEditBox(const QString &title, QSqlTableModel *model, QTableVi
 
     connect(selectionModel, &QItemSelectionModel::currentRowChanged, this, &TableEditBox::selectedItemChanged);
 
-    connect(addButton, &QPushButton::clicked, this, [&](){ emit this->openAddDialog(this, model); });
+    connect(addButton, &QPushButton::clicked, this, [&](){ emit this->openAddDialog(this, this->model); });
     connect(removeButton, &QPushButton::clicked, this, &TableEditBox::removeRow);
-    connect(editButton, &QPushButton::clicked, this, [&](){ emit this->openEditDialog(this, model); });
+    connect(editButton, &QPushButton::clicked, this, [&](){ emit this->openEditDialog(this, this->model, this->view->currentIndex()); });
 }
 
 void TableEditBox::selectedItemChanged()
