@@ -18,11 +18,13 @@ SOURCES += \
     src/MainWindow.cpp \
     src/TagsTab.cpp \
     src/TableEditBox.cpp \
+    src/DialogForRegularTransfers.cpp
 
 HEADERS += \
     src/MainWindow.hpp \
     src/TagsTab.hpp \
     src/TableEditBox.hpp \
+    src/DialogForRegularTransfers.hpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
