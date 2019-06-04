@@ -1,5 +1,6 @@
 #include "MainWindow.hpp"
 #include "TagsTab.hpp"
+#include "TransfersTab.hpp"
 
 #include <QTabWidget>
 #include <QWidget>
@@ -16,5 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     tabs = new QTabWidget(this);
     setCentralWidget(tabs);
 
+    tabs->addTab(new TransfersTab(this, true), "Incomes");
+    tabs->addTab(new TransfersTab(this, false), "Expenses");
     tabs->addTab(new TagsTab, QString("Tags"));
 }

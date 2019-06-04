@@ -17,12 +17,14 @@ SOURCES += \
     src/main.cpp \
     src/MainWindow.cpp \
     src/TagsTab.cpp \
+    src/TransfersTab.cpp \
     src/TableEditBox.cpp \
     src/DialogForRegularTransfers.cpp
 
 HEADERS += \
     src/MainWindow.hpp \
     src/TagsTab.hpp \
+    src/TransfersTab.hpp \
     src/TableEditBox.hpp \
     src/DialogForRegularTransfers.hpp
 
