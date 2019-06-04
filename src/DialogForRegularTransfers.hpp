@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QString>
+#include <QModelIndex>
 
 class QLineEdit;
 class QDoubleSpinBox;
@@ -31,6 +32,7 @@ public slots:
     virtual void accept() override;
 
     void addTag(QComboBox * tagsList, int transferId);
+    void removeTag(QModelIndex index);
 
 private:
     QSqlRelationalTableModel * createModel(const QString &tagsTableName, int transferId);

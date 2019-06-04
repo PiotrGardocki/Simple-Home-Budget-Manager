@@ -109,6 +109,16 @@ void DialogForRegularTransfers::addTag(QComboBox * tagsList, int transferId)
         model->revertAll();
 }
 
+void DialogForRegularTransfers::removeTag(QModelIndex index)
+{
+    if (!index.isValid())
+        return;
+
+    model->removeRow(index.row());
+    if (!model->submitAll())
+        model->revertAll();
+}
+
 QSqlRelationalTableModel *DialogForRegularTransfers::createModel(const QString & tagsTableName, int transferId)
 {
     QSqlRelationalTableModel * model = new QSqlRelationalTableModel(this);
@@ -132,6 +142,8 @@ QTableView *DialogForRegularTransfers::createView(QSqlRelationalTableModel *mode
     view->setColumnHidden(0, true);
     view->setColumnHidden(2, true);
     view->setEditTriggers(QTableView::NoEditTriggers);
+    view->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
+    view->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
 
     return view;
 }
@@ -159,6 +171,7 @@ void DialogForRegularTransfers::createTagsTable(const QString & tagsTableName, i
     layout->addWidget(tagsTableMenu, 4, 0);
 
     connect(addTag, &QPushButton::clicked, this, [=](){ this->addTag(tags, transferId); });
+    connect(removeTag, &QPushButton::clicked, this, [=](){ this->removeTag(view->currentIndex()); });
 
     layout->addWidget(view, 4, 1);
 }
