@@ -19,14 +19,16 @@ SOURCES += \
     src/TagsTab.cpp \
     src/TransfersTab.cpp \
     src/TableEditBox.cpp \
-    src/DialogForRegularTransfers.cpp
+    src/DialogForRegularTransfers.cpp \
+    src/CurrencyProxyModel.cpp
 
 HEADERS += \
     src/MainWindow.hpp \
     src/TagsTab.hpp \
     src/TransfersTab.hpp \
     src/TableEditBox.hpp \
-    src/DialogForRegularTransfers.hpp
+    src/DialogForRegularTransfers.hpp \
+    src/CurrencyProxyModel.hpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -1,6 +1,7 @@
 #include "TransfersTab.hpp"
 #include "TableEditBox.hpp"
 #include "DialogForRegularTransfers.hpp"
+#include "CurrencyProxyModel.hpp"
 
 #include <QSqlTableModel>
 #include <QSqlField>
@@ -52,8 +53,13 @@ TableEditBox *TransfersTab::createSection(QSqlTableModel *model, const QString &
     QString filter = positiveNumbers ? QString("transfer_value > 0") : QString("transfer_value < 0");
     model->setFilter(filter);
 
+    CurrencyProxyModel * currencyProxy = new CurrencyProxyModel(this);
+    currencyProxy->setCurrencyColumn(2);
+    currencyProxy->setCurrencySuffix(QString("zł"));
+    currencyProxy->setSourceModel(model);
+
     QTableView * view = new QTableView(this);
-    view->setModel(model);
+    view->setModel(currencyProxy);
     view->setColumnHidden(0, true);
 
     QString title = titlePrefix;
