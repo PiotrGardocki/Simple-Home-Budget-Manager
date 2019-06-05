@@ -21,7 +21,8 @@ SOURCES += \
     src/TableEditBox.cpp \
     src/DialogForRegularTransfers.cpp \
     src/CurrencyProxyModel.cpp \
-    src/DialogForTransfers.cpp
+    src/DialogForTransfers.cpp \
+    src/DialogForLatestTransfers.cpp
 
 HEADERS += \
     src/MainWindow.hpp \
@@ -30,7 +31,8 @@ HEADERS += \
     src/TableEditBox.hpp \
     src/DialogForRegularTransfers.hpp \
     src/CurrencyProxyModel.hpp \
-    src/DialogForTransfers.hpp
+    src/DialogForTransfers.hpp \
+    src/DialogForLatestTransfers.hpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
