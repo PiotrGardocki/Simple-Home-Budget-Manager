@@ -1,7 +1,8 @@
 #ifndef DIALOGFOREGULARTRANSFERS_HPP
 #define DIALOGFOREGULARTRANSFERS_HPP
 
-#include <QDialog>
+#include "DialogForTransfers.hpp"
+
 #include <QString>
 #include <QModelIndex>
 
@@ -13,7 +14,7 @@ class QComboBox;
 class QTableView;
 class QSqlRelationalTableModel;
 
-class DialogForRegularTransfers : public QDialog
+class DialogForRegularTransfers : public DialogForTransfers
 {
     Q_OBJECT
 

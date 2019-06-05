@@ -23,7 +23,7 @@
 #include <cmath>
 
 DialogForRegularTransfers::DialogForRegularTransfers(QWidget * parent, QString tagsTableName, int transferId)
-    : QDialog(parent, Qt::WindowType::Dialog | Qt::WindowType::MSWindowsFixedSizeDialogHint)
+    : DialogForTransfers (parent, tagsTableName, transferId)
 {
     layout = new QGridLayout(this);
 
