@@ -12,6 +12,7 @@
 #include <QFrame>
 #include <QComboBox>
 #include <QDialogButtonBox>
+#include <QHeaderView>
 
 #include <QSqlRelationalTableModel>
 #include <QSqlRelation>
@@ -144,6 +145,7 @@ QTableView *DialogForRegularTransfers::createView(QSqlRelationalTableModel *mode
     view->setEditTriggers(QTableView::NoEditTriggers);
     view->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
     view->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
+    view->horizontalHeader()->setStretchLastSection(true);
 
     return view;
 }
