@@ -9,6 +9,7 @@ class QGroupBox;
 class QVBoxLayout;
 class QSqlTableModel;
 class DialogForRegularTransfers;
+class DialogForLatestTransfers;
 
 class TableEditBox;
 
@@ -34,8 +35,8 @@ private:
     void addDialogForRegularTransfersAccepted(TableEditBox * section, QSqlTableModel * model, DialogForRegularTransfers * dialog);
     void editDialogForRegularTransfersAccepted(TableEditBox * section, QSqlTableModel * model, DialogForRegularTransfers * dialog, QModelIndex index, QSqlRecord record);
 
-    void addDialogForLatestTransfersAccepted(TableEditBox * section, QSqlTableModel * model);
-    void editDialogForLatestTransfersAccepted(TableEditBox * section, QSqlTableModel * model, QModelIndex index, QSqlRecord record);
+    void addDialogForLatestTransfersAccepted(TableEditBox * section, QSqlTableModel * model, DialogForLatestTransfers * dialog);
+    void editDialogForLatestTransfersAccepted(TableEditBox * section, QSqlTableModel * model, DialogForLatestTransfers * dialog, QModelIndex index, QSqlRecord record);
 
 private:
     QVBoxLayout * layout;

@@ -1,6 +1,7 @@
 #include "TransfersTab.hpp"
 #include "TableEditBox.hpp"
 #include "DialogForRegularTransfers.hpp"
+#include "DialogForLatestTransfers.hpp"
 #include "CurrencyProxyModel.hpp"
 
 #include <QSqlTableModel>
@@ -8,6 +9,7 @@
 #include <QSqlRecord>
 #include <QTableView>
 #include <QVBoxLayout>
+#include <QDate>
 
 #include <cmath>
 
@@ -102,14 +104,37 @@ void TransfersTab::openEditDialogForRegularTransfers(TableEditBox * section, QSq
             this, [=](){ this->editDialogForRegularTransfersAccepted(section, model, dialog, index, record); });
 }
 
-void TransfersTab::openAddDialogForLatestTransfers(TableEditBox * /*section*/, QSqlTableModel * /*model*/)
+void TransfersTab::openAddDialogForLatestTransfers(TableEditBox * section, QSqlTableModel * model)
 {
+    DialogForLatestTransfers * dialog = new DialogForLatestTransfers(this);
+    dialog->open();
 
+    connect(dialog, &DialogForLatestTransfers::accepted,
+            this, [=](){ this->addDialogForLatestTransfersAccepted(section, model, dialog); });
 }
 
-void TransfersTab::openEditDialogForLatestTransfers(TableEditBox * /*section*/, QSqlTableModel * /*model*/, QModelIndex /*index*/)
+void TransfersTab::openEditDialogForLatestTransfers(TableEditBox * section, QSqlTableModel * model, QModelIndex index)
 {
+    if (!index.isValid())
+        return;
 
+    QSqlRecord record = model->record(index.row());
+
+    DialogForLatestTransfers * dialog = new DialogForLatestTransfers(this, "normal_transfers_tags", record.value("id").toInt());
+
+    QString transferName = record.value("transfer_name").toString();
+    int transferValue = record.value("transfer_value").toInt();
+    QString dateString = record.value("date").toString();
+    QDate date = QDate::fromString(dateString, "dd.MM.yyyy");
+
+    dialog->setTransferName(transferName);
+    dialog->setTransferValue(std::abs(transferValue));
+    dialog->setDate(date);
+
+    dialog->open();
+
+    connect(dialog, &DialogForRegularTransfers::accepted,
+            this, [=](){ this->editDialogForLatestTransfersAccepted(section, model, dialog, index, record); });
 }
 
 void TransfersTab::addDialogForRegularTransfersAccepted(TableEditBox * section, QSqlTableModel * model, DialogForRegularTransfers * dialog)
@@ -173,12 +198,66 @@ void TransfersTab::editDialogForRegularTransfersAccepted(TableEditBox * section,
     dialog->reject();
 }
 
-void TransfersTab::addDialogForLatestTransfersAccepted(TableEditBox * /*section*/, QSqlTableModel * /*model*/)
+void TransfersTab::addDialogForLatestTransfersAccepted(TableEditBox * section, QSqlTableModel * model, DialogForLatestTransfers * dialog)
 {
+    QString transferName = dialog->transferName();
+    int transferValue = dialog->transferValue();
+    QDate date = dialog->date();
+    QString dateString = date.toString("dd.MM.yyyy");
 
+    if (date.isValid() && transferValue != 0)
+    {
+        transferValue = std::abs(transferValue);
+        if (!positiveNumbers)
+            transferValue = -transferValue;
+
+        QSqlRecord record;
+
+        QSqlField field1("transfer_name", QVariant::Type::String);
+        field1.setValue(transferName);
+        record.append(field1);
+        QSqlField field2("transfer_value", QVariant::Type::Int);
+        field2.setValue(transferValue);
+        record.append(field2);
+        QSqlField field3("date", QVariant::Type::String);
+        field3.setValue(dateString);
+        record.append(field3);
+
+        if (model->insertRecord(-1, record))
+        {
+            section->tryToSubmitChanges();
+            section->selectedItemChanged();
+        }
+    }
+
+    dialog->reject();
 }
 
-void TransfersTab::editDialogForLatestTransfersAccepted(TableEditBox * /*section*/, QSqlTableModel * /*model*/, QModelIndex /*index*/, QSqlRecord /*record*/)
+void TransfersTab::editDialogForLatestTransfersAccepted(TableEditBox * section, QSqlTableModel * model, DialogForLatestTransfers * dialog, QModelIndex index, QSqlRecord record)
 {
+    QString transferName = dialog->transferName();
+    int transferValue = dialog->transferValue();
+    QDate date = dialog->date();
+    QString dateString = date.toString("dd.MM.yyyy");
 
+    // add checking old values
+    if (date.isValid() && transferValue != 0)
+    {
+        transferValue = std::abs(transferValue);
+        if (!positiveNumbers)
+            transferValue = -transferValue;
+
+        record.setValue("transfer_name", transferName);
+        record.setValue("transfer_value", transferValue);
+        record.setValue("date", dateString);
+
+        if (model->setRecord(index.row(), record))
+        {
+            section->tryToSubmitChanges();
+            section->selectedItemChanged();
+        }
+    }
+
+    dialog->reject();
 }
+
