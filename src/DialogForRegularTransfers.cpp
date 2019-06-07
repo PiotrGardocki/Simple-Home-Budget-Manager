@@ -1,7 +1,6 @@
 #include "DialogForRegularTransfers.hpp"
 
 #include <QGridLayout>
-
 #include <QLabel>
 #include <QSpinBox>
 

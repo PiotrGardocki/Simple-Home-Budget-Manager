@@ -15,7 +15,6 @@ public:
     explicit DialogForRegularTransfers(QWidget * parent = nullptr, QString tagsTableName = "", int transferId = -1);
 
     int dayToCountTransfer() const;
-
     void setDayToCountTransfer(int day);
 
 private:
