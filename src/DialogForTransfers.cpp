@@ -151,6 +151,7 @@ void DialogForTransfers::createTagsTable(const QString & tagsTableName, int tran
 
     QFrame * separator = new QFrame(this);
     separator->setFrameStyle(QFrame::HLine);
+    separator->setStyleSheet("color: gray");
     layout->addWidget(separator, 1, 0, 1, 2);
 
     QWidget * tagsTableMenu = new QWidget(this);
