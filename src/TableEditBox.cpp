@@ -38,6 +38,8 @@ TableEditBox::TableEditBox(const QString &title, QSqlTableModel *model, QTableVi
     connect(addButton, &QPushButton::clicked, this, [&](){ emit this->openAddDialog(this, this->model); });
     connect(removeButton, &QPushButton::clicked, this, &TableEditBox::removeRow);
     connect(editButton, &QPushButton::clicked, this, [&](){ emit this->openEditDialog(this, this->model, this->view->currentIndex()); });
+
+    connect(view, &QTableView::doubleClicked, this, [&](const QModelIndex & index){ emit this->openEditDialog(this, this->model, index); });
 }
 
 void TableEditBox::selectedItemChanged()
