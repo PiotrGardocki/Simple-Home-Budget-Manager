@@ -10,6 +10,7 @@
 #include <QTableView>
 #include <QVBoxLayout>
 #include <QDate>
+#include <QErrorMessage>
 
 #include <cmath>
 
@@ -17,6 +18,8 @@ TransfersTab::TransfersTab(QWidget *parent, bool positiveNumbers)
     : QWidget(parent), positiveNumbers(positiveNumbers)
 {
     layout = new QVBoxLayout(this);
+    errorMessages = new QErrorMessage(this);
+    errorMessages->setWindowFlags(Qt::WindowType::Dialog | Qt::WindowType::MSWindowsFixedSizeDialogHint);
 
     createRegularTransfersSection();
     createLatestTransfersSection();
@@ -143,7 +146,7 @@ void TransfersTab::addDialogForRegularTransfersAccepted(TableEditBox * section, 
     int transferValue = dialog->transferValue();
     int day = dialog->dayToCountTransfer();
 
-    if (day >= 1 && day <= 31 && transferValue != 0)
+    if (day >= 1 && day <= 31 && checkTransferValue(transferValue))
     {
         transferValue = std::abs(transferValue);
         if (!positiveNumbers)
@@ -178,7 +181,7 @@ void TransfersTab::editDialogForRegularTransfersAccepted(TableEditBox * section,
     int day = dialog->dayToCountTransfer();
 
     // add checking old values
-    if (day >= 1 && day <= 31 && transferValue != 0)
+    if (day >= 1 && day <= 31 && checkTransferValue(transferValue))
     {
         transferValue = std::abs(transferValue);
         if (!positiveNumbers)
@@ -205,7 +208,7 @@ void TransfersTab::addDialogForLatestTransfersAccepted(TableEditBox * section, Q
     QDate date = dialog->date();
     QString dateString = date.toString("dd.MM.yyyy");
 
-    if (date.isValid() && transferValue != 0)
+    if (date.isValid() && checkTransferValue(transferValue))
     {
         transferValue = std::abs(transferValue);
         if (!positiveNumbers)
@@ -241,7 +244,7 @@ void TransfersTab::editDialogForLatestTransfersAccepted(TableEditBox * section, 
     QString dateString = date.toString("dd.MM.yyyy");
 
     // add checking old values
-    if (date.isValid() && transferValue != 0)
+    if (date.isValid() && checkTransferValue(transferValue))
     {
         transferValue = std::abs(transferValue);
         if (!positiveNumbers)
@@ -259,5 +262,15 @@ void TransfersTab::editDialogForLatestTransfersAccepted(TableEditBox * section, 
     }
 
     dialog->reject();
+}
+
+bool TransfersTab::checkTransferValue(int value)
+{
+    if (value == 0)
+    {
+        errorMessages->showMessage("Transfer's value cannot be 0");
+        return false;
+    }
+    return true;
 }
 

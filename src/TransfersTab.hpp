@@ -8,9 +8,10 @@
 class QGroupBox;
 class QVBoxLayout;
 class QSqlTableModel;
+class QErrorMessage;
+
 class DialogForRegularTransfers;
 class DialogForLatestTransfers;
-
 class TableEditBox;
 
 class TransfersTab : public QWidget
@@ -38,7 +39,10 @@ private:
     void addDialogForLatestTransfersAccepted(TableEditBox * section, QSqlTableModel * model, DialogForLatestTransfers * dialog);
     void editDialogForLatestTransfersAccepted(TableEditBox * section, QSqlTableModel * model, DialogForLatestTransfers * dialog, QModelIndex index, QSqlRecord record);
 
+    bool checkTransferValue(int value);
+
 private:
+    QErrorMessage * errorMessages;
     QVBoxLayout * layout;
     bool positiveNumbers;
 };
