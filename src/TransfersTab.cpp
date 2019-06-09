@@ -180,21 +180,23 @@ void TransfersTab::editDialogForRegularTransfersAccepted(TableEditBox * section,
     int transferValue = dialog->transferValue();
     int day = dialog->dayToCountTransfer();
 
-    // add checking old values
     if (day >= 1 && day <= 31 && checkTransferValue(transferValue))
     {
         transferValue = std::abs(transferValue);
         if (!positiveNumbers)
             transferValue = -transferValue;
 
-        record.setValue("transfer_name", transferName);
-        record.setValue("transfer_value", transferValue);
-        record.setValue("month_day_to_count_transfer", day);
-
-        if (model->setRecord(index.row(), record))
+        if (transferName != record.value("transfer_name") || transferValue != record.value("transfer_value") || day != record.value("month_day_to_count_transfer"))
         {
-            section->tryToSubmitChanges();
-            section->selectedItemChanged();
+            record.setValue("transfer_name", transferName);
+            record.setValue("transfer_value", transferValue);
+            record.setValue("month_day_to_count_transfer", day);
+
+            if (model->setRecord(index.row(), record))
+            {
+                section->tryToSubmitChanges();
+                section->selectedItemChanged();
+            }
         }
     }
 
@@ -243,21 +245,23 @@ void TransfersTab::editDialogForLatestTransfersAccepted(TableEditBox * section, 
     QDate date = dialog->date();
     QString dateString = date.toString("dd.MM.yyyy");
 
-    // add checking old values
     if (date.isValid() && checkTransferValue(transferValue))
     {
         transferValue = std::abs(transferValue);
         if (!positiveNumbers)
             transferValue = -transferValue;
 
-        record.setValue("transfer_name", transferName);
-        record.setValue("transfer_value", transferValue);
-        record.setValue("date", dateString);
-
-        if (model->setRecord(index.row(), record))
+        if (transferName != record.value("transfer_name") || transferValue != record.value("transfer_value") || dateString != record.value("date"))
         {
-            section->tryToSubmitChanges();
-            section->selectedItemChanged();
+            record.setValue("transfer_name", transferName);
+            record.setValue("transfer_value", transferValue);
+            record.setValue("date", dateString);
+
+            if (model->setRecord(index.row(), record))
+            {
+                section->tryToSubmitChanges();
+                section->selectedItemChanged();
+            }
         }
     }
 
